@@ -29,7 +29,6 @@ message17="CHEATER!"
 message20="Took you long enough!"
 message21="54/4"
 message22="That is not an accepted operation...moron."
-message23="I said NUMBER not LETTER."
 message24="Enjoy"
 message25="I'll let you go, but only because"
 message26="is my favorite number too"
@@ -175,11 +174,6 @@ string1=str(string1)
 if string1== "big":
  art0=raw_input("what's your favorite single digit number?")
 #secret ascii art
- if art0 == "q"or"w"or"e"or"r"or"t"or"y"or"u"or"i"or"o"or"p"or"a"or"s"or"d"or"f"or"g"or"h"or"j"or"k"or"l"or"z"or"x"or"c"or"v"or"b"or"n"or"m":
-  print message23
- else:
-  print message24
-#for morons
  print 
  print art0," "*2,art0
  print art0," "*2,art0," "*2,art0
@@ -190,10 +184,11 @@ if string1== "big":
  print art0," "*2,art0," "*2,art0
  print
 
-print message25,art0,message26
-exit(0)
-#art in its highest form
-
+ print message25,art0,message26
+ exit(0)
+ #art in its highest form
+else:
+ print message24
 Input7=int(Input7)
 if Input7 != 576**23:
  print Input7,"!",message12
