@@ -7,6 +7,9 @@ print "-----------------------------"
 # 1. Keep getting a number from the input (num) until it is a multiple of 3.
 num = 0
 
+while num/3 != num/3.0 or num == 0:
+ num=raw_input("Enter a multiple of three:")
+ num=int(num)
 print "1.", num
 
 # 2. Countdown from the given number to 0 by threes. 
@@ -16,8 +19,11 @@ print "1.", num
 #      6...
 #      3...
 #      0
-
 print "2. Countdown from", num
+while num>-1:
+ print num, "..."
+ num-=3
+ 
 #CODE GOES HERE
 
 

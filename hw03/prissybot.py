@@ -110,7 +110,7 @@ elif Input6 == "-":
 elif Input6 == "**":
  print Input4,"^",Input5,"=",Input4**Input5
 #if - to the power
-elif Input6 != "-":
+elif Input6 != "**":
  print message22
  exit(0)
 #for morons and smartalecs
