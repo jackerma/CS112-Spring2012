@@ -38,8 +38,13 @@ else:
 
 
 # 4. Generate a list of every odd number less than 100. Hint: use range()
-list1=[range(1,100,2)]
-print "4.", list1
+list1=[range(100)]
+list=[]
+for odds in list1:
+ odds=int(odds)
+ if odds/2 != odds/2.0:
+  list.append[odds]
+print "4.", list
 
 # 5. [ADVANCED]  Multiply each element in nums by its index
 

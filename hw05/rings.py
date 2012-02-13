@@ -22,6 +22,31 @@ pygame.display.set_caption("Olympic Rings   [press ESC to quit]")
 ## Draw
 screen.fill(WHITE)
 
+# blue ring
+colorb=(100,100,255)
+pos1=(150,125)
+pygame.draw.circle(screen,colorb,pos1,115,20)
+
+# black ring
+colorbk=(0,0,0)
+pos2=(400,125)
+pygame.draw.circle(screen,colorbk,pos2,115,20)
+
+#red ring
+colorr=(205,0,0)
+pos3=(650,125)
+pygame.draw.circle(screen,colorr,pos3,115,20)
+
+# yellow
+colory=(255,205,0)
+pos4=(275,250)
+pygame.draw.circle(screen,colory,pos4,115,20)
+
+# green ring
+colorg=(0,175,0)
+pos5=(525,250)
+pygame.draw.circle(screen,colorg,pos5,115,20)
+
 #################################
 ##  DRAW OLYPIC RINGS HERE
 ##

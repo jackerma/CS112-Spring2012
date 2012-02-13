@@ -16,7 +16,8 @@ A bunch of excercises to see if you understand list comprehensions
 
 # 1. Read a bunch of numbers from the input separated by spaces and 
 #    convert them to ints
-print "1.", []
+a=int(raw_input("Enter a number seperated by ' ':"))
+print "1.", a
 
 # 2.  Read another bunch of numbers, convert them, and return the list 
 #     of only the first 3
