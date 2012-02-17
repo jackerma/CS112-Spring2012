@@ -1,10 +1,14 @@
 #!/usr/bin/env python
-var1=0
-var2=[]
-var3=None
-while var3!="":
-    var3=raw_input()
-    var2.append(float(var3))
-for var in var2:
-    var1+=var
-print var1/len(var2)
+total=0
+input_list=[]
+input_number=None
+#get list numbers
+while input_number!="":
+    input_number=raw_input()
+    if input_number.isdigit()
+     input_listoat(input_number))
+#total list
+for num in input_list:
+    total+=num
+#print average
+print total/len(input_list)
