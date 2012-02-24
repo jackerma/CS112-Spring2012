@@ -9,7 +9,24 @@ import math
 #      >>> distance((0,0), (3,4))
 #      5
 
-# def distance(a, b):
+def distance(a, b):
+    ax=int(a[0])
+    ay=int(a[1])
+    bx=int(b[0])
+    by=int(b[1])
+    d=math.sqrt((ax-bx)**2+(ay-by)**2)
+    print d
+a=[]
+b=[]
+c=raw_input("Enter x0: ")
+d=raw_input("Enter y0: ")
+e=raw_input("Enter x1: ")
+f=raw_input("Enter y1: ")
+a.append(c)
+a.append(d)
+b.append(e)
+b.append(f)
+distance(a, b)
 
 
 # ADVANCED
@@ -26,3 +43,4 @@ import math
 #     [0.25, 0.25, 0.25, 0.25]
 
 # def normalize(vec):
+    
