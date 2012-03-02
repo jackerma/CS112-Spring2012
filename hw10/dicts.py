@@ -16,7 +16,16 @@ manipulate python dictionaries.
 
 def freq(data):
     "calculate the frequency for each value in data"
+    dic={}
+    list=data
+    for i in list:
+        j=list.count(i)
+        dic.update({i:j})
+    return dic
+    print dic
 
+list=[1,1,1,11]
+freq(list)
 
 
 # 2. Movie Reviews
@@ -38,13 +47,31 @@ def freq(data):
 #      None
 
 movies = {}
-
+values = []
 def score(title, value):
-    "register the score for a given movie out of 5"
-
+    global values
+    if title in movies:
+        "register the score for a given movie out of 5"
+        values.append(float(value))
+        movies[title] = values
+    else:
+        values=[float(value)]
+        movies[title] = [float(value)]
 
 def avg_score(title):
     "return the average score for a given movie"
+    scores=0
+    score=0
+    if title in movies:
+        avg=0
+        for i in range(len(values)):
+            score=movies[title][i]
+            scores+=score
+        avg= scores/len(values)
+        return avg
+
+score("f", 4)
+score("f", 5)
 
 
 
