@@ -200,8 +200,9 @@ while not done:
             pygame.draw.rect(screen, GREY, rect)
             pygame.draw.rect(screen, BLACK, rect, 1)
 
-    for rect in clickedrt and done==False:
-        draw_flag(rect.center)
+    for rect in clickedrt:
+        if done!=True:
+            draw_flag(rect.center)
 
 
     #refresh rate
