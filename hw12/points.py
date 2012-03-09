@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+import math
 # Point Object
 # =====================================
 # Create a Point point class.  Point objects, when created, look like this:
@@ -30,6 +32,29 @@
 #    >>> print a.distance(b)
 #    5
 #
+x=0
+y=0
+class Point(object):
+
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+    
+    def move(self, x, y):
+        self.x = x
+        self.y = y
+        return x, y
+
+    def translate(self, dx, dy):
+        self.x += dx
+        self.y += dy
+        return x, y
+
+    def distance(self, other):
+        dist = math.sqrt((self.x-other.x)**2+(self.y-other.y)**2)
+        return dist
+
+
 
 
 # Advanced Section:

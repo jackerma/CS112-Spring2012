@@ -6,7 +6,6 @@ The simple game of tron with two players.  Press the space bar to start the game
 """
 
 import pygame
-import pygame
 from pygame import draw
 from random import randrange
 from pygame.locals import *
