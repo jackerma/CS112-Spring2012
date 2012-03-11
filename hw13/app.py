@@ -63,8 +63,7 @@ class Application(object):
                     self.resume()
                 else:
                     self.pause()
-            elif event.type == VIDEOEXPOSE:
-                print "woo"
+
             else:
                 self.handle_event(event)
 

@@ -13,6 +13,7 @@ from graphics import draw_tie, draw_ywing, draw_bullet
 from ships import Ship, ShipSpawner
 from utils import *
 
+
 ## EXPLOSIONS
 class ExplosionGroup(Group):
     def draw(self, surf):
@@ -118,7 +119,8 @@ class TieSpawner(ShipSpawner):
         r = randrange(128,256)
         return r,0,0
 
-##########
+
+##BULLETS
 
 class Bullet(Ship):
     width = 10
@@ -131,7 +133,23 @@ class Bullet(Ship):
         vx = self.vx
         vy = self.vy
 
-        Ship.update(self, dt)
+###
+        dt /= 1000.0
+        dx = int(self.vx * dt)
+        dy = int(self.vy * dt)
+        self.rect.x += dx
+        self.rect.y += dy
+
+        if self.rect.left < self.bounds.left or self.rect.right > self.bounds.right:
+            self.vx = -self.vx
+            self.rect.x += -2 * dx
+
+        if self.rect.top < self.bounds.top:
+            Sprite.kill(self)
+        if self.rect.top > self.bounds.bottom:
+            self.vy = -self.vy
+            self.rect.y += -2 * dy
+###
 
         if vx != self.vx or vy != self.vy:
             if vx != self.vx:
@@ -143,20 +161,28 @@ class Bullet(Ship):
 
             bullet = Bullet(self.rect.x, self.rect.y, vx, vy, self.bounds, self.color)
 
+
+
 class BulletSpawner(ShipSpawner):
     ship_type = Bullet
 
     def rand_vel(self):
         vx = 0
-        vy = randint_neg(200, 250)
+        vy = 500
         return vx, -vy
 
     def rand_color(self):
         r = randrange(128,172)
         return r,r,r
 
+    def spawn(self):
+        x = randrange(self.bounds.width - self.ship_type.width) + self.bounds.left
+        y = self.bounds.bottom
+        vx, vy = self.rand_vel()
+        color = self.rand_color()
 
-##########
+        ship = self.ship_type(x, y, vx, vy, self.bounds, color)
+        self.group.add(ship)
 
 
 ## Y-Wing
@@ -211,12 +237,13 @@ class Game(Application):
 
         self.bounds = self.screen.get_rect()
         self.ships = ShipGroup(self.max_ships)
+#       self.bullets = BulletsGroup()
         self.xplos = ExplosionGroup()
         Explosion.group = self.xplos
 
         self.spawners = [ TieSpawner(1000, self.ships, self.bounds),
                           YWingSpawner(2000, self.ships, self.bounds),
-                          BulletSpawner(100, self.ships, self.bounds) ]
+                          BulletSpawner(500, self.ships, self.bounds) ]
 
     def handle_event(self, event):
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
@@ -230,6 +257,9 @@ class Game(Application):
 
         for xplo in self.xplos:
             pygame.sprite.spritecollide(xplo, self.ships, True, collide_xplo_ship)
+
+#        for bullet in self.bullets:
+#            pygame.sprite.spritecollide(bullet, self.ships, True, collide_xplo_ship)
 
         for spawner in self.spawners:
             spawner.update(dt)
