@@ -83,7 +83,6 @@ class Player(Ship):
         vx = 0
         vy = 0
 
-###
 #        dt /= 1000.0
 #        dx = int(self.vx * dt)
 #        dy = int(self.vy * dt)
@@ -101,8 +100,6 @@ class Player(Ship):
 #            self.rect.y += -2 * dy
 
 
-
-
 class PlayerSpawner(ShipSpawner):
     ship_type = Player
 
@@ -116,7 +113,7 @@ class PlayerSpawner(ShipSpawner):
         return r,r,r
 
     def spawn(self):
-        x = randrange(self.bounds.width - self.ship_type.width) + self.bounds.left
+        x = self.bounds.width/2
         y = self.bounds.bottom-40
         vx, vy = self.rand_vel()
         color = self.rand_color()
@@ -284,7 +281,7 @@ class Game(Application):
 
         self.bounds = self.screen.get_rect()
         self.ships = ShipGroup(self.max_ships)
-#       self.bullets = BulletsGroup()
+        self.bullets = ShipGroup(self.max_ships)
         self.xplos = ExplosionGroup()
         Explosion.group = self.xplos
 
@@ -299,18 +296,34 @@ class Game(Application):
             self.xplos.add( Explosion(pygame.mouse.get_pos(), 30) )
         elif event.type == KEYDOWN and event.key == K_f:
             dt = min(self.min_dt, self.clock.get_time())
-            BulletSpawner(500, self.ships, self.bounds).update(dt)
+            BulletSpawner(500, self.bullets, self.bounds).update(dt)
+
+        elif event.type == KEYDOWN and event.key == K_w:
+            pass
+        elif event.type == KEYDOWN and event.key == K_s:
+            pass 
+        elif event.type == KEYDOWN and event.key == K_a:
+            pass
+        elif event.type == KEYDOWN and event.key == K_d:
+            pass
+
     def update(self):
         dt = min(self.min_dt, self.clock.get_time())
 
         self.ships.update(dt)
         self.xplos.update(dt)
+        self.bullets.update(dt)
+
 
         for xplo in self.xplos:
             pygame.sprite.spritecollide(xplo, self.ships, True, collide_xplo_ship)
 
-#        for bullet in self.bullets:
-#            pygame.sprite.spritecollide(bullet, self.ships, True, collide_xplo_ship)
+        for bullet in self.bullets:
+            for ship in self.ships:
+                if pygame.sprite.collide_rect(bullet, ship):
+                    ship.kill()
+                    Sprite.kill(bullet)
+
 
         for spawner in self.spawners:
             spawner.update(dt)
@@ -319,6 +332,7 @@ class Game(Application):
         screen.fill((0,0,0))
         self.ships.draw(screen)
         self.xplos.draw(screen)
+        self.bullets.draw(screen)
 
 if __name__ == "__main__":
     Game().run()
