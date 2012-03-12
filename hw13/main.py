@@ -9,7 +9,7 @@ from pygame.locals import *
 from pygame.sprite import Sprite, Group
 
 from app import Application
-from graphics import draw_tie, draw_ywing, draw_bullet
+from graphics import draw_tie, draw_ywing, draw_bullet, draw_player
 from ships import Ship, ShipSpawner
 from utils import *
 
@@ -47,7 +47,6 @@ class Explosion(Sprite):
 
 
 
-
 class Explodes(Sprite):
     explosion_type = Explosion
     explosion_radius = 60
@@ -72,52 +71,58 @@ class ShipGroup(Group):
             if len(self) < self.count:
                 Group.add(self, sprite)
 
-## TIE FIGHTERS
-class TieExplosion(Explosion):
-    def rand_color(self):
-        r = randrange(256)
-        return 255, r, 0
-
-class TieFighter(Explodes, Ship):
+##Player
+class Player(Ship):
     width = 40
     height = 40
-
-    explosion_type = TieExplosion
-    explosion_radius = 28
-
+    
     def draw_image(self):
-        draw_tie(self.image, self.color)
+        draw_player(self.image, self.color)
 
     def update(self, dt):
-        vx = self.vx
-        vy = self.vy
+        vx = 0
+        vy = 0
 
-        Ship.update(self, dt)
+###
+#        dt /= 1000.0
+#        dx = int(self.vx * dt)
+#        dy = int(self.vy * dt)
+#        self.rect.x += dx
+#        self.rect.y += dy
 
-        if vx != self.vx or vy != self.vy:
-            if vx != self.vx:
-                vx = self.vx
-                vy = -vy
-            else:
-                vx = -vx
-                vy = self.vy
+#        if self.rect.left < self.bounds.left or self.rect.right > self.bounds.right:
+#            self.vx = -self.vx
+#            self.rect.x += -2 * dx
 
-            tie = TieFighter(self.rect.x, self.rect.y, vx, vy, self.bounds, self.color)
+#        if self.rect.top < self.bounds.top:
+#            Sprite.kill(self)
+#        if self.rect.top > self.bounds.bottom:
+#            self.vy = -self.vy
+#            self.rect.y += -2 * dy
 
-#            for group in self.groups():
-#                group.add(tie)
 
-class TieSpawner(ShipSpawner):
-    ship_type = TieFighter
+
+
+class PlayerSpawner(ShipSpawner):
+    ship_type = Player
 
     def rand_vel(self):
         vx = 0
-        vy = randint_neg(200, 250)
+        vy = 500
         return vx, vy
 
     def rand_color(self):
-        r = randrange(128,256)
-        return r,0,0
+        r = randrange(128,172)
+        return r,r,r
+
+    def spawn(self):
+        x = randrange(self.bounds.width - self.ship_type.width) + self.bounds.left
+        y = self.bounds.bottom-40
+        vx, vy = self.rand_vel()
+        color = self.rand_color()
+
+        ship = self.ship_type(x, y, vx, vy, self.bounds, color)
+        self.group.add(ship)
 
 
 ##BULLETS
@@ -125,6 +130,7 @@ class TieSpawner(ShipSpawner):
 class Bullet(Ship):
     width = 10
     height = 10
+
     
     def draw_image(self):
         draw_bullet(self.image, self.color)
@@ -159,9 +165,6 @@ class Bullet(Ship):
                 vx = -vx
                 vy = self.vy
 
-            bullet = Bullet(self.rect.x, self.rect.y, vx, vy, self.bounds, self.color)
-
-
 
 class BulletSpawner(ShipSpawner):
     ship_type = Bullet
@@ -183,6 +186,50 @@ class BulletSpawner(ShipSpawner):
 
         ship = self.ship_type(x, y, vx, vy, self.bounds, color)
         self.group.add(ship)
+
+
+## TIE FIGHTERS
+class TieExplosion(Explosion):
+    def rand_color(self):
+        r = randrange(256)
+        return 255, r, 0
+
+class TieFighter(Explodes, Ship):
+    width = 40
+    height = 40
+
+    explosion_type = TieExplosion
+    explosion_radius = 28
+
+    def draw_image(self):
+        draw_tie(self.image, self.color)
+
+    def update(self, dt):
+        vx = self.vx
+        vy = self.vy
+
+        Ship.update(self, dt)
+
+        if vx != self.vx or vy != self.vy:
+            if vx != self.vx:
+                vx = self.vx
+                vy = -vy
+            else:
+                vx = -vx
+                vy = self.vy
+
+
+class TieSpawner(ShipSpawner):
+    ship_type = TieFighter
+
+    def rand_vel(self):
+        vx = 0
+        vy = randint_neg(200, 250)
+        return vx, vy
+
+    def rand_color(self):
+        r = randrange(128,256)
+        return r,0,0
 
 
 ## Y-Wing
@@ -243,12 +290,16 @@ class Game(Application):
 
         self.spawners = [ TieSpawner(1000, self.ships, self.bounds),
                           YWingSpawner(2000, self.ships, self.bounds),
-                          BulletSpawner(500, self.ships, self.bounds) ]
+                          PlayerSpawner(2000, self.ships, self.bounds)  ]
+
+        
 
     def handle_event(self, event):
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
             self.xplos.add( Explosion(pygame.mouse.get_pos(), 30) )
-
+        elif event.type == KEYDOWN and event.key == K_f:
+            dt = min(self.min_dt, self.clock.get_time())
+            BulletSpawner(500, self.ships, self.bounds).update(dt)
     def update(self):
         dt = min(self.min_dt, self.clock.get_time())
 
