@@ -95,15 +95,15 @@ class Player(Ship):
         vx = 0
         vy = 0
 
-#    def move(self, dir):
-#        if dir=="w":
-#            self.rect.y -= 10
-#        if dir=="s":
-#            self.rect.y +=10
-#        if dir=="a":
-#            self.rect.x -=10
-#        if dir=="d":
-#            self.rect.x +=10
+    def move(self, dir):
+        if dir=="w":
+            self.rect.y -= self.vy
+        if dir=="s":
+            self.rect.y += self.vy
+        if dir=="a":
+            self.rect.x -= self.vx
+        if dir=="d":
+            self.rect.x += self.vx
 
 
 
@@ -206,7 +206,7 @@ class BulletSpawner(ShipSpawner):
 
     def spawn(self):
         x = self.player.rect.x
-#        y = self.player.rect.y
+        y = self.player.rect.y
         vx, vy = self.rand_vel()
         color = self.rand_color()
 
@@ -312,7 +312,7 @@ class Game(Application):
         self.ships = ShipGroup(self.max_ships)
         self.bullets = ShipGroup(self.max_ships)
         self.xplos = ExplosionGroup()
-        self.player = Player(400, 560, 0, 0, self.bounds, (0,0,0))
+        self.player = Player(400, 560, 20, 20, self.bounds, (255,255,255))
         Explosion.group = self.xplos
 
         self.spawners = [ TieSpawner(1000, self.ships, self.bounds),
@@ -321,21 +321,22 @@ class Game(Application):
         
 
     def handle_event(self, event):
+
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
             self.xplos.add( Explosion(pygame.mouse.get_pos(), 30) )
 
         elif event.type == KEYDOWN and event.key == K_f:
             dt = min(self.min_dt, self.clock.get_time())
             BulletSpawner(500, self.bullets, self.bounds,self.player).update(dt)
-                                                        #^^^^^^^^^^^
-#        elif event.type == KEYDOWN and event.key == K_w:
-#            self.player.move("w")
-#        elif event.type == KEYDOWN and event.key == K_s:
-#            self.player.move("s")
-#        elif event.type == KEYDOWN and event.key == K_a:
-#            self.player.move("a")
-#        elif event.type == KEYDOWN and event.key == K_d:
-#            self.player.move("d")
+
+        elif event.type == KEYDOWN and event.key == K_w:
+            self.player.move("w")
+        elif event.type == KEYDOWN and event.key == K_s:
+            self.player.move("s")
+        elif event.type == KEYDOWN and event.key == K_a:
+            self.player.move("a")
+        elif event.type == KEYDOWN and event.key == K_d:
+            self.player.move("d")
 
     def update(self):
         dt = min(self.min_dt, self.clock.get_time())
@@ -343,7 +344,6 @@ class Game(Application):
         self.ships.update(dt)
         self.xplos.update(dt)
         self.bullets.update(dt)
-
 
         for xplo in self.xplos:
             pygame.sprite.spritecollide(xplo, self.ships, True, collide_xplo_ship)
@@ -363,6 +363,7 @@ class Game(Application):
         self.ships.draw(screen)
         self.xplos.draw(screen)
         self.bullets.draw(screen)
+        self.player.draw_image()
 
 if __name__ == "__main__":
     Game().run()
