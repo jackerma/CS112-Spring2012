@@ -1,0 +1,16 @@
+"SMUP" Instructions
+____________________
+
+Controls:
+W 	= Move up
+A 	= Move left
+S 	= Move down
+d	= Move right
+f 	= fire
+Space 	= Pause
+
+Game:
+Shoot as many enemies as possible. 
+Enemies killed by secondary explosions will not count toward your score.
+
+If 10 enemies make it past you the game is over.

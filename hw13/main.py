@@ -380,10 +380,7 @@ class Game(Application):
 
     def handle_event(self, event):
 
-        if event.type == MOUSEBUTTONDOWN and event.button == 1:
-            self.xplos.add( Explosion(pygame.mouse.get_pos(), 30) )
-
-        elif event.type == KEYDOWN and event.key == K_f:
+        if event.type == KEYDOWN and event.key == K_f:
             dt = min(self.min_dt, self.clock.get_time())
             BulletSpawner(500, self.bullets, self.bounds,self.player).update(dt)
         
