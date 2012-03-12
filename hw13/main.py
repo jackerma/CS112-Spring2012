@@ -95,15 +95,15 @@ class Player(Ship):
         vx = 0
         vy = 0
 
-    def move(self, dir):
-        if dir=="w":
-            self.rect.y -= 10
-        if dir=="s":
-            self.rect.y +=10
-        if dir=="a":
-            self.rect.x -=10
-        if dir=="d":
-            self.rect.x +=10
+#    def move(self, dir):
+#        if dir=="w":
+#            self.rect.y -= 10
+#        if dir=="s":
+#            self.rect.y +=10
+#        if dir=="a":
+#            self.rect.x -=10
+#        if dir=="d":
+#            self.rect.x +=10
 
 
 
@@ -206,7 +206,7 @@ class BulletSpawner(ShipSpawner):
 
     def spawn(self):
         x = self.player.rect.x
-        y = self.player.rect.y
+#        y = self.player.rect.y
         vx, vy = self.rand_vel()
         color = self.rand_color()
 
@@ -328,14 +328,14 @@ class Game(Application):
             dt = min(self.min_dt, self.clock.get_time())
             BulletSpawner(500, self.bullets, self.bounds,self.player).update(dt)
                                                         #^^^^^^^^^^^
-        elif event.type == KEYDOWN and event.key == K_w:
-            self.player.move("w")
-        elif event.type == KEYDOWN and event.key == K_s:
-            self.player.move("s")
-        elif event.type == KEYDOWN and event.key == K_a:
-            self.player.move("a")
-        elif event.type == KEYDOWN and event.key == K_d:
-            self.player.move("d")
+#        elif event.type == KEYDOWN and event.key == K_w:
+#            self.player.move("w")
+#        elif event.type == KEYDOWN and event.key == K_s:
+#            self.player.move("s")
+#        elif event.type == KEYDOWN and event.key == K_a:
+#            self.player.move("a")
+#        elif event.type == KEYDOWN and event.key == K_d:
+#            self.player.move("d")
 
     def update(self):
         dt = min(self.min_dt, self.clock.get_time())
