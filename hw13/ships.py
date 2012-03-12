@@ -7,6 +7,7 @@ from pygame import Rect, Surface
 from pygame.locals import *
 from pygame.sprite import Sprite, Group
 
+
 class Ship(Sprite):
     width = 20
     height = 20
@@ -18,7 +19,7 @@ class Ship(Sprite):
         self.vy = vy
         self.bounds = bounds
         self.color = color
-
+        
         self.rect = Rect(x, y, self.width, self.height)
         self.image = Surface(self.rect.size)
         self.draw_image()

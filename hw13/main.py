@@ -7,11 +7,24 @@ import pygame
 from pygame import Rect, Surface
 from pygame.locals import *
 from pygame.sprite import Sprite, Group
+import time
 
 from app import Application
 from graphics import draw_tie, draw_ywing, draw_bullet, draw_player
 from ships import Ship, ShipSpawner
 from utils import *
+
+##DEATH COUNTER
+dcount = 10
+def death_sub():
+    global dcount
+    dcount -= 1
+    
+    if dcount <= 0:
+        time.sleep(5)
+        exit()
+
+
 
 
 ## EXPLOSIONS
@@ -234,7 +247,22 @@ class TieFighter(Explodes, Ship):
         vx = self.vx
         vy = self.vy
 
-        Ship.update(self, dt)
+        dt /= 1000.0
+        dx = int(self.vx * dt)
+        dy = int(self.vy * dt)
+        self.rect.x += dx
+        self.rect.y += dy
+
+        if self.rect.left < self.bounds.left or self.rect.right > self.bounds.right:
+            self.vx = -self.vx
+            self.rect.x += -2 * dx
+
+        if self.rect.top < self.bounds.top :
+            self.vy = -self.vy
+            self.rect.y += -2 * dy
+        if self.rect.top > self.bounds.bottom+20:
+            Sprite.kill(self)
+            death_sub()
 
         if vx != self.vx or vy != self.vy:
             if vx != self.vx:
@@ -276,15 +304,42 @@ class YWing(Explodes, Ship):
         self.flipped_image = pygame.transform.flip(self.image, True, False)
 
     def update(self, dt):
+        vx = self.vx
+        vy = self.vy
         if randrange(60) == 0:
             self.vx = -self.vx
 
-        Ship.update(self, dt)
+      
 
         if self.vx > 0:
             self.image = self.orig_image
         else:
             self.image = self.flipped_image
+
+        dt /= 1000.0
+        dx = int(self.vx * dt)
+        dy = int(self.vy * dt)
+        self.rect.x += dx
+        self.rect.y += dy
+
+        if self.rect.left < self.bounds.left or self.rect.right > self.bounds.right:
+            self.vx = -self.vx
+            self.rect.x += -2 * dx
+
+        if self.rect.top < self.bounds.top :
+            self.vy = -self.vy
+            self.rect.y += -2 * dy
+        if self.rect.top > self.bounds.bottom+20:
+            Sprite.kill(self)
+            death_sub()
+
+        if vx != self.vx or vy != self.vy:
+            if vx != self.vx:
+                vx = self.vx
+                vy = -vy
+            else:
+                vx = -vx
+                vy = self.vy
 
 class YWingSpawner(ShipSpawner):
     ship_type = YWing
@@ -361,19 +416,22 @@ class Game(Application):
         for spawner in self.spawners:
             spawner.update(dt)
 
+
     def draw(self, screen):
         smallfont = pygame.font.Font(None,80)
         screen.fill((0,0,0))
         text = smallfont.render(str(self.score), True,(255,255,255), (0,0,0))
         loc = text.get_rect()
-        loc.center = self.bounds.center
+        loc.center = 40,40
         screen.blit(text,loc)
+
+
 
         self.ships.draw(screen)
         self.xplos.draw(screen)
         self.bullets.draw(screen)
         self.player.draw_image()
-        pygame.draw.circle(screen, self.player.color,(self.player.rect.x,self.player.rect.y),10)
+        pygame.draw.polygon(screen, self.player.color,[(self.player.rect.x,self.player.rect.y),(self.player.rect.x - 15, self.player.rect.y - 15),(self.player.rect.x,self.player.rect.y - 50), (self.player.rect.x +15, self.player.rect.y-15)])
         
 
 if __name__ == "__main__":
