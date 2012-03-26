@@ -1,0 +1,33 @@
+1. Virus Aquarium
+Genre:Strategy (http://www.kongregate.com/games/badben/nano-war?acomplete=nano+war crossed with http://www.youtube.com/watch?feature=player_embedded&v=Y8BqOGKGKas)
+Based on the xkcd comic (http://xkcd.com/350/)
+Single player is just a simulator, but multiplayer would challenge players to take over the network with their viruses, while random server wipes change the balance. Points accrue over time (based on the number of viruses you have) allowing the player to introduce more viruses.
+
+Hurdles
+1. 	Multiplayer (made easier by the fact that player interaction is limited to introducing new viruses)
+2.	Types of viruses (fast spreading, rapid multiplying, etc)
+3.	Animations
+4.	Unlockables (not necessary and rather tricky if they persist postgame)
+
+2. Top down shooter 
+Simple top down shooter. Basic hack and slash gameplay
+(http://www.kongregate.com/games/Djugan/hands-of-war minus the abilities), but with a much more straightforward goal of reaching a boss.
+
+Hurdles 
+1.	 Map changing
+2.	Enemies types (possibly various levels of each)
+3.	Boss
+4.	Animations
+5.	Saving system
+6.	Leveling
+
+3. Disaster Preparation
+Flip-screen side scrolling exploration game, in which, the player needs to gather materials and people for an impending disaster. Each type of disaster (flood, zombie apocalypse, etc) has different requirements and some disasters are more difficult than others.
+
+Hurdles 
+1.	Persisting level unlocks
+2.	Animations
+3.	Checklist of items obtained
+4.	Randomization of item placement
+5.	Physics (jumping and possibly puzzles) 
+

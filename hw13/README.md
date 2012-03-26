@@ -21,26 +21,11 @@ This weekend you will be creating an overhead shooter (aka shoot 'em up aka shmu
 
 This is a good time to make up points by adding more features to your game.
 
-## Advanced
 
-Create any type of overhead shmup.  It can be like raiden/1942 or more contemporary like geometry wars/everyday shooter. 
 
-Requirements:
- * use spritegroups as well as sprites
- * gameovers and the ability to restart the game after you lose
- * highscore(s)
- * multiple lives
- * multiple weapon types (switchable or collectable)
- * more enemies
-    * at least one behaves completely differently than the others
- * a depletable resource.  ex:
-    * ammo
-    * health
-    * shield
- * collectable items.  ex:
-    * points
-    * new weapons
-    * bombs
+
+
+
 
 
 In addition, add some things to make this game "your own".  Essentially, take the requirements and make it fun to play.  You can change anything as long as it fits within your game design and is still some sort of shooter.  If you skip anything in the above list, try to replace it with something "equivilent" and mention why you skipped it in the instructions.  The point of this class is programming, not artwork. So add more code/logic, not just images.  An example of a "unique" shooter is [Ikaruga](http://www.thenewarcade.com/games/shmup/59/ikaruga), though you don't need to go that far.
