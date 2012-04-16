@@ -40,6 +40,7 @@ class QuadTreeTest(unittest.TestCase):
     # get_rects tests
     @unittest.skipIf(not hasattr(QuadTreeNode, "get_rects"), "missing get_rects")
     def test_get_rects_simple(self):
+
         "if zero or one points have been added, get_rects should just return a list with the root's rect"
         self.assertIn(self.qtree.rect, self.qtree.get_rects(), "root rect missing, no points")
         self.assertEqual(1, len(self.qtree.get_rects()), "too many rects returned, no points")
@@ -65,14 +66,14 @@ class QuadTreeTest(unittest.TestCase):
 
     @unittest.skipIf(not hasattr(QuadTreeNode, "get_rects"), "missing get_rects")
     def test_get_rects_complex(self):
-        "if many splits have occured, all rects should be returned"
 
+        "if many splits have occured, all rects should be returned"
         self.qtree.add_point((10,10))
         self.qtree.add_point((40,40))
         self.qtree.add_point((75,75))
         rects = self.qtree.get_rects()
 
-        self.assertEqual(9, len(rects), "expected 5 rects (root and children)")
+        self.assertEqual(9, len(rects), "expected 9 rects (root and children)")
         self.assertIn(self.qtree.rect, rects, "root rect missing")
         self.assertIn(self.qtree.nw.rect, rects, "root.nw rect missing")
         self.assertIn(self.qtree.ne.rect, rects, "root.ne rect missing")

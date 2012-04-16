@@ -98,6 +98,10 @@ from pygame.locals import *
 
 from pygame import Rect
 
+points = []
+
+
+
 MAX_DEPTH = 10
 class QuadTreeNode(object):
 
@@ -105,12 +109,12 @@ class QuadTreeNode(object):
         self.rect = rect
         self.data = None
         self.is_split = False
-
+        self.points = points
         self.ne = None
         self.nw = None
         self.se = None
         self.sw = None
-
+        self.rects = []
         self.depth = depth
 
     def add_point(self, point):
@@ -150,13 +154,48 @@ class QuadTreeNode(object):
         else:
             self.se.add_point(point)
 
-    # def get_points(self):
-    
+    def get_points(self):
+        
+        global points
+        points = []
+        if not self.is_split and self.depth == 0:
+            if self.data != None:
+                self.points.append(self.data)
+        elif self.is_split:
+            QuadTreeNode.get_points(self.ne)
+            QuadTreeNode.get_points(self.nw)
+            QuadTreeNode.get_points(self.se)
+            QuadTreeNode.get_points(self.sw)
 
-    # def get_rects(node, rects=None):
-    #   if rects is None:
-    #       rects = []
+        else:
+            if self.data != None:
+                self.points.append(self.data)
+        return self.points
 
 
-    # Advanced
-    # def collidepoint(self, point):
+    def get_rects(node, rects=None):
+
+        if rects is None:
+            rects = []
+
+        if not node.is_split and node.depth == 0:
+            rects.append(node.rect)
+            return rects
+        
+        else:
+            node.rects.append(node.rect)
+
+        if node.is_split:
+            QuadTreeNode.get_rects(node.ne)
+            node.rects.extend(node.ne.rects)
+            QuadTreeNode.get_rects(node.nw)
+            node.rects.extend(node.nw.rects)
+            QuadTreeNode.get_rects(node.se)
+            node.rects.extend(node.se.rects)
+            QuadTreeNode.get_rects(node.sw)
+            node.rects.extend(node.sw.rects)
+            return node.rects
+
+        else:
+            return node.rects
+
